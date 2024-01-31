@@ -1,0 +1,1041 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>施工日行事曆POC</title>
+  <link rel="stylesheet" href="./theme.css">
+  <style>
+    .st-regular-menu-top-shrink::before {
+      content: url('data:image/svg+xml,%3Csvg%20id="_%E5%9C%96%E5%B1%A4_1"%20xmlns="http://www.w3.org/2000/svg"%20viewBox="0%200%2020%2020"%3E%3Cpath%20d="m20,11.38c0,.2-.04.4-.13.6-.25.54-.79.88-1.41.88h-3.22v5.71c0,.79-.64,1.43-1.43,1.43h-7.62c-.79,0-1.43-.64-1.43-1.43v-5.71H1.55c-.62,0-1.16-.34-1.41-.88-.24-.51-.15-1.1.22-1.53L8.8.54C9.1.2,9.53,0,10,0s.9.2,1.2.54l8.45,9.9c.23.27.35.6.35.93Zm-14.29,7.19c0,.26.21.48.48.48h7.62c.26,0,.48-.21.48-.48v-6.19c0-.26.21-.48.48-.48h3.69c.29,0,.47-.17.55-.33.04-.08.11-.3-.08-.51L10.47,1.16c-.11-.13-.29-.21-.47-.21s-.36.08-.47.21h0S1.07,11.06,1.07,11.06c-.18.21-.11.43-.08.51.07.16.26.33.55.33h3.69c.26,0,.48.21.48.48v6.19Z"/%3E%3C/svg%3E');
+    }
+
+    .normal-title-bg-color {
+      background-color: #4E79A7;
+    }
+
+    .normal-content-bg-color {
+      background-color: #A0CBE8;
+      height: 150px;
+    }
+
+    .project-title-bg-color {
+      background-color: #59A14F;
+    }
+
+    .project-content-bg-color {
+      background-color: #8CD17D;
+      height: 150px;
+    }
+
+    .urgent-title-bg-color {
+      background-color: #E15759;
+    }
+
+    .urgent-content-bg-color {
+      background-color: #FF9D9A;
+      height: 150px;
+    }
+
+    .table-container * {
+      box-sizing: border-box;
+    }
+
+    .table-container table {
+      max-width: 1650px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .table-container #desktop-table td {
+      width: calc((100% - 165px) / 6);
+    }
+
+    .table-container #pad-table td {
+      width: 50%;
+    }
+
+    .table-container #mobile-table td {
+      width: 100%;
+    }
+
+    .table-container table th {
+      min-width: 165px;
+      width: 0%;
+    }
+
+    .table-container #button-template {
+      display: none;
+    }
+
+    .table-container .group-button-item {
+      height: 100%;
+    }
+
+    .table-container .group-button-text {
+      padding: 0.429em 1em;
+    }
+
+    .table-container .fixed-icon {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+      display: none;
+      opacity: 0.4;
+    }
+
+    .table-container .fixed-icon:hover {
+      opacity: 1;
+    }
+
+    .group-button {
+      display: flex;
+      flex-wrap: wrap;
+      margin: 0 -6px 30px;
+    }
+
+    .group-button>div {
+      box-sizing: border-box;
+      flex: 0 1 auto;
+      width: 33.333%;
+      padding: 3px 6px;
+      cursor: pointer;
+    }
+
+    .group-button>div .group-button-item {
+      background-color: #2196F3;
+      color: #ffffff;
+      border: 1px solid #2196F3;
+      font-size: 14px;
+    }
+
+    .group-button>div:hover .group-button-item {
+      background-color: #1976D2;
+      border-color: #1976D2;
+      color: #ffffff;
+    }
+
+    #pad-table,
+    #mobile-table {
+      display: none;
+    }
+
+    .group-button {
+      display: none;
+    }
+
+    @media screen and (max-width: 1200px) {
+      #desktop-table {
+        display: none;
+      }
+
+      #pad-table {
+        display: table;
+      }
+
+      .group-button {
+        display: flex;
+      }
+    }
+
+
+    @media screen and (max-width: 699px) {
+      .table-container table td {
+        width: 100%;
+      }
+
+      .group-button>div {
+        width: 100%;
+      }
+
+      #pad-table {
+        display: none;
+      }
+
+      #mobile-table {
+        display: table;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="table-container">
+    <div class="group-button">
+      <div id="button-template">
+        <div class="group-button-item">
+          <div class="group-button-text">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="fixed-icon st-regular-menu-top-shrink"></div>
+    <table class='daily-form' id='mobile-table' border="1" cellpadding="2"></table>
+    <table class='daily-form' id='pad-table' border="1" cellpadding="3"></table>
+    <table id="desktop-table" class="daily-form" border="1" cellpadding="10">
+      <tr>
+        <th colspan="7" scope="col">2024 年 01 月 01 日（星期一）蘇花改施工行事曆</th>
+      </tr>
+      <tr>
+        <th rowspan="2" scope="row">
+          <div style="margin-bottom:40px; float:right;">路段</div>
+          <div style="margin-top:40px; float:left;">時段</div>
+        </th>
+        <td colspan="2">
+          <div align="center">A段 蘇澳至東澳</div>
+        </td>
+        <td colspan="2">
+          <div align="center">B段 南澳和平路段</div>
+        </td>
+        <td colspan="2">
+          <div align="center">C段 和中至大清水路段</div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div align="center">南下</div>
+        </td>
+        <td>
+          <div align="center">北上</div>
+        </td>
+        <td>
+          <div align="center">南下</div>
+        </td>
+        <td>
+          <div align="center">北上</div>
+        </td>
+        <td>
+          <div align="center">南下</div>
+        </td>
+        <td>
+          <div align="center">北上</div>
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">
+          <p align="center">上午</p>
+          <p align="center">( 08:00 - 12:00 )</p>
+        </th>
+        <td>
+          &nbsp;
+          <div class="normal-content-bg-color">
+            <div class="normal-title-bg-color">
+              一般型施工
+            </div>
+            A段-南下-上午<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="project-content-bg-color">
+            <div class="project-title-bg-color">
+              專案型施工
+            </div>
+            A段-南下-上午<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="urgent-content-bg-color">
+            <div class="urgent-title-bg-color">
+              緊急型施工
+            </div>
+            A段-南下-上午<br />
+            施工申請內容......
+          </div>
+          <br />
+        </td>
+        <td>
+          &nbsp;
+          <div class="normal-content-bg-color">
+            <div class="normal-title-bg-color">
+              一般型施工
+            </div>
+            A段-北上-上午<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="project-content-bg-color">
+            <div class="project-title-bg-color">
+              專案型施工
+            </div>
+            A段-北上-上午<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="urgent-content-bg-color">
+            <div class="urgent-title-bg-color">
+              緊急型施工
+            </div>
+            A段-北上-上午<br />
+            施工申請內容......
+          </div>
+          <br />
+        </td>
+        <td>
+          &nbsp;
+          <div class="normal-content-bg-color">
+            <div class="normal-title-bg-color">
+              一般型施工
+            </div>
+            B段-南下-上午<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="project-content-bg-color">
+            <div class="project-title-bg-color">
+              專案型施工
+            </div>
+            B段-南下-上午<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="urgent-content-bg-color">
+            <div class="urgent-title-bg-color">
+              緊急型施工
+            </div>
+            B段-南下-上午<br />
+            施工申請內容......
+          </div>
+          <br />
+        </td>
+        <td>
+          &nbsp;
+          <div class="normal-content-bg-color">
+            <div class="normal-title-bg-color">
+              一般型施工
+            </div>
+            B段-北上-上午<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="project-content-bg-color">
+            <div class="project-title-bg-color">
+              專案型施工
+            </div>
+            B段-北上-上午<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="urgent-content-bg-color">
+            <div class="urgent-title-bg-color">
+              緊急型施工
+            </div>
+            B段-北上-上午<br />
+            施工申請內容......
+          </div>
+          <br />
+        </td>
+        <td>
+          &nbsp;
+          <div class="normal-content-bg-color">
+            <div class="normal-title-bg-color">
+              一般型施工
+            </div>
+            C段-南下-上午<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="project-content-bg-color">
+            <div class="project-title-bg-color">
+              專案型施工
+            </div>
+            C段-南下-上午<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="urgent-content-bg-color">
+            <div class="urgent-title-bg-color">
+              緊急型施工
+            </div>
+            C段-南下-上午<br />
+            施工申請內容......
+          </div>
+          <br />
+        </td>
+        <td>
+          &nbsp;
+          <div class="normal-content-bg-color">
+            <div class="normal-title-bg-color">
+              一般型施工
+            </div>
+            C段-北上-上午<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="project-content-bg-color">
+            <div class="project-title-bg-color">
+              專案型施工
+            </div>
+            C段-北上-上午<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="urgent-content-bg-color">
+            <div class="urgent-title-bg-color">
+              緊急型施工
+            </div>
+            C段-北上-上午<br />
+            施工申請內容......
+          </div>
+          <br />
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">
+          <p align="center">下午</p>
+          <p align="center">( 13:00 - 17:00 )</p>
+        </th>
+        <td>
+          &nbsp;
+          <div class="normal-content-bg-color">
+            <div class="normal-title-bg-color">
+              一般型施工
+            </div>
+            A段-南下-下午<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="project-content-bg-color">
+            <div class="project-title-bg-color">
+              專案型施工
+            </div>
+            A段-南下-下午<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="urgent-content-bg-color">
+            <div class="urgent-title-bg-color">
+              緊急型施工
+            </div>
+            A段-南下-下午<br />
+            施工申請內容......
+          </div>
+          <br />
+        </td>
+        <td>
+          &nbsp;
+          <div class="normal-content-bg-color">
+            <div class="normal-title-bg-color">
+              一般型施工
+            </div>
+            A段-北上-下午<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="project-content-bg-color">
+            <div class="project-title-bg-color">
+              專案型施工
+            </div>
+            A段-北上-下午<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="urgent-content-bg-color">
+            <div class="urgent-title-bg-color">
+              緊急型施工
+            </div>
+            A段-北上-下午<br />
+            施工申請內容......
+          </div>
+          <br />
+        </td>
+        <td>
+          &nbsp;
+          <div class="normal-content-bg-color">
+            <div class="normal-title-bg-color">
+              一般型施工
+            </div>
+            B段-南下-下午<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="project-content-bg-color">
+            <div class="project-title-bg-color">
+              專案型施工
+            </div>
+            B段-南下-下午<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="urgent-content-bg-color">
+            <div class="urgent-title-bg-color">
+              緊急型施工
+            </div>
+            B段-南下-下午<br />
+            施工申請內容......
+          </div>
+          <br />
+        </td>
+        <td>
+          &nbsp;
+          <div class="normal-content-bg-color">
+            <div class="normal-title-bg-color">
+              一般型施工
+            </div>
+            B段-北上-下午<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="project-content-bg-color">
+            <div class="project-title-bg-color">
+              專案型施工
+            </div>
+            B段-北上-下午<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="urgent-content-bg-color">
+            <div class="urgent-title-bg-color">
+              緊急型施工
+            </div>
+            B段-北上-下午<br />
+            施工申請內容......
+          </div>
+          <br />
+        </td>
+        <td>
+          &nbsp;
+          <div class="normal-content-bg-color">
+            <div class="normal-title-bg-color">
+              一般型施工
+            </div>
+            C段-南下-下午<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="project-content-bg-color">
+            <div class="project-title-bg-color">
+              專案型施工
+            </div>
+            C段-南下-下午<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="urgent-content-bg-color">
+            <div class="urgent-title-bg-color">
+              緊急型施工
+            </div>
+            C段-南下-下午<br />
+            施工申請內容......
+          </div>
+          <br />
+        </td>
+        <td>
+          &nbsp;
+          <div class="normal-content-bg-color">
+            <div class="normal-title-bg-color">
+              一般型施工
+            </div>
+            C段-北上-下午<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="project-content-bg-color">
+            <div class="project-title-bg-color">
+              專案型施工
+            </div>
+            C段-北上-下午<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="urgent-content-bg-color">
+            <div class="urgent-title-bg-color">
+              緊急型施工
+            </div>
+            C段-北上-下午<br />
+            施工申請內容......
+          </div>
+          <br />
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">
+          <p align="center">夜間</p>
+          <p align="center">( 17:00 - 隔日08:00 )</p>
+        </th>
+        <td>
+          &nbsp;
+          <div class="normal-content-bg-color">
+            <div class="normal-title-bg-color">
+              一般型施工
+            </div>
+            A段-南下-夜間至隔日<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="project-content-bg-color">
+            <div class="project-title-bg-color">
+              專案型施工
+            </div>
+            A段-南下-夜間至隔日<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="urgent-content-bg-color">
+            <div class="urgent-title-bg-color">
+              緊急型施工
+            </div>
+            A段-南下-夜間至隔日<br />
+            施工申請內容......
+          </div>
+          <br />
+        </td>
+        <td>
+          &nbsp;
+          <div class="normal-content-bg-color">
+            <div class="normal-title-bg-color">
+              一般型施工
+            </div>
+            A段-北上-夜間至隔日<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="project-content-bg-color">
+            <div class="project-title-bg-color">
+              專案型施工
+            </div>
+            A段-北上-夜間至隔日<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="urgent-content-bg-color">
+            <div class="urgent-title-bg-color">
+              緊急型施工
+            </div>
+            A段-北上-夜間至隔日<br />
+            施工申請內容......
+          </div>
+          <br />
+        </td>
+        <td>
+          &nbsp;
+          <div class="normal-content-bg-color">
+            <div class="normal-title-bg-color">
+              一般型施工
+            </div>
+            B段-南下-夜間至隔日<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="project-content-bg-color">
+            <div class="project-title-bg-color">
+              專案型施工
+            </div>
+            B段-南下-夜間至隔日<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="urgent-content-bg-color">
+            <div class="urgent-title-bg-color">
+              緊急型施工
+            </div>
+            B段-南下-夜間至隔日<br />
+            施工申請內容......
+          </div>
+          <br />
+        </td>
+        <td>
+          &nbsp;
+          <div class="normal-content-bg-color">
+            <div class="normal-title-bg-color">
+              一般型施工
+            </div>
+            B段-北上-夜間至隔日<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="project-content-bg-color">
+            <div class="project-title-bg-color">
+              專案型施工
+            </div>
+            B段-北上-夜間至隔日<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="urgent-content-bg-color">
+            <div class="urgent-title-bg-color">
+              緊急型施工
+            </div>
+            B段-北上-夜間至隔日<br />
+            施工申請內容......
+          </div>
+          <br />
+        </td>
+        <td>
+          &nbsp;
+          <div class="normal-content-bg-color">
+            <div class="normal-title-bg-color">
+              一般型施工
+            </div>
+            C段-南下-夜間至隔日<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="project-content-bg-color">
+            <div class="project-title-bg-color">
+              專案型施工
+            </div>
+            C段-南下-夜間至隔日<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="urgent-content-bg-color">
+            <div class="urgent-title-bg-color">
+              緊急型施工
+            </div>
+            C段-南下-夜間至隔日<br />
+            施工申請內容......
+          </div>
+          <br />
+        </td>
+        <td>
+          &nbsp;
+          <div class="normal-content-bg-color">
+            <div class="normal-title-bg-color">
+              一般型施工
+            </div>
+            C段-北上-夜間至隔日<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="project-content-bg-color">
+            <div class="project-title-bg-color">
+              專案型施工
+            </div>
+            C段-北上-夜間至隔日<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="urgent-content-bg-color">
+            <div class="urgent-title-bg-color">
+              緊急型施工
+            </div>
+            C段-北上-夜間至隔日<br />
+            施工申請內容......
+          </div>
+          <br />
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">
+          <p align="center">其他</p>
+          <p align="center">( 未佔用車道施工 )</p>
+        </th>
+        <td>
+          &nbsp;
+          <div class="normal-content-bg-color">
+            <div class="normal-title-bg-color">
+              一般型施工
+            </div>
+            A段-南下-其他<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="project-content-bg-color">
+            <div class="project-title-bg-color">
+              專案型施工
+            </div>
+            A段-南下-其他<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="urgent-content-bg-color">
+            <div class="urgent-title-bg-color">
+              緊急型施工
+            </div>
+            A段-南下-其他<br />
+            施工申請內容......
+          </div>
+          <br />
+        </td>
+        <td>
+          &nbsp;
+          <div class="normal-content-bg-color">
+            <div class="normal-title-bg-color">
+              一般型施工
+            </div>
+            A段-北上-其他<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="project-content-bg-color">
+            <div class="project-title-bg-color">
+              專案型施工
+            </div>
+            A段-北上-其他<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="urgent-content-bg-color">
+            <div class="urgent-title-bg-color">
+              緊急型施工
+            </div>
+            A段-北上-其他<br />
+            施工申請內容......
+          </div>
+          <br />
+        </td>
+        <td>
+          &nbsp;
+          <div class="normal-content-bg-color">
+            <div class="normal-title-bg-color">
+              一般型施工
+            </div>
+            B段-南下-其他<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="project-content-bg-color">
+            <div class="project-title-bg-color">
+              專案型施工
+            </div>
+            B段-南下-其他<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="urgent-content-bg-color">
+            <div class="urgent-title-bg-color">
+              緊急型施工
+            </div>
+            B段-南下-其他<br />
+            施工申請內容......
+          </div>
+          <br />
+        </td>
+        <td>
+          &nbsp;
+          <div class="normal-content-bg-color">
+            <div class="normal-title-bg-color">
+              一般型施工
+            </div>
+            B段-北上-其他<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="project-content-bg-color">
+            <div class="project-title-bg-color">
+              專案型施工
+            </div>
+            B段-北上-其他<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="urgent-content-bg-color">
+            <div class="urgent-title-bg-color">
+              緊急型施工
+            </div>
+            B段-北上-其他<br />
+            施工申請內容......
+          </div>
+          <br />
+        </td>
+        <td>
+          &nbsp;
+          <div class="normal-content-bg-color">
+            <div class="normal-title-bg-color">
+              一般型施工
+            </div>
+            C段-南下-其他<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="project-content-bg-color">
+            <div class="project-title-bg-color">
+              專案型施工
+            </div>
+            C段-南下-其他<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="urgent-content-bg-color">
+            <div class="urgent-title-bg-color">
+              緊急型施工
+            </div>
+            C段-南下-其他<br />
+            施工申請內容......
+          </div>
+          <br />
+        </td>
+        <td>
+          &nbsp;
+          <div class="normal-content-bg-color">
+            <div class="normal-title-bg-color">
+              一般型施工
+            </div>
+            C段-北上-其他<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="project-content-bg-color">
+            <div class="project-title-bg-color">
+              專案型施工
+            </div>
+            C段-北上-其他<br />
+            施工申請內容......
+          </div>
+          <br />
+          <div class="urgent-content-bg-color">
+            <div class="urgent-title-bg-color">
+              緊急型施工
+            </div>
+            C段-北上-其他<br />
+            施工申請內容......
+          </div>
+          <br />
+        </td>
+      </tr>
+    </table>
+  </div>
+  <script src="./jquery.js"></script>
+
+  <script>
+    function debounce(func, wait, immediate) {
+      var timeout;
+      return function () {
+        var context = this, args = arguments;
+        var later = function () {
+          timeout = null;
+          if (!immediate) func.apply(context, args);
+        };
+        var callNow = immediate && !timeout;
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+        if (callNow) func.apply(context, args);
+      };
+    }
+
+
+
+    $(document).ready(function () {
+      const fixedIcon = $('.table-container .fixed-icon').eq(0);
+      fixedIcon.on('click', function () {
+        $('html, body').animate({
+          scrollTop: 0,
+        }, 500);
+      });
+      // scroll事件，當網頁往下滾200px時，就會觸發function
+      const debouncedScroll = debounce(function () {
+        if (!fixedIcon) {
+          return;
+        }
+        if ($(this).scrollTop() > 100) {
+          fixedIcon.css({
+            display: 'block',
+
+          });
+        } else {
+          fixedIcon.css({
+            display: 'none',
+          });
+        }
+      }, 500).bind(window);
+      $(window).scroll(debouncedScroll);
+      function bindGroupButtonClickEvent() {
+        $('.table-container .group-button > div').on('click', function (event) {
+          const isMobile = $('.table-container #mobile-table').css('display') !== 'none';
+          const targetId = isMobile ? $(this).find('.group-button-text').attr('data-mobile') : $(this).find('.group-button-text').attr('data-pad');
+          const target = $('#' + targetId);
+          if (target.length) {
+            const top = target.offset().top;
+            $('html, body').animate({
+              scrollTop: (top - 10) > 0 ? (top - 10) : 0,
+            }, 500);
+          }
+        });
+      }
+
+
+      createTable();
+      function createTable() {
+        const container = $(".table-container");
+        const padBody = $("<tbody></tbody>");
+        const mobileBody = $("<tbody></tbody>");
+        const mobileTable = $('.daily-form#mobile-table');
+        const padTable = $('.daily-form#pad-table');
+        const desktopTable = $(".daily-form#desktop-table");
+        const buttonTemplate = $('.table-container #button-template');
+        const groupButton = $('.table-container .group-button');
+        const tr = desktopTable.find('tr');
+        const trLen = tr.length;
+        const subCellLen = $(tr[2]).find('td').length / ($(tr[1]).find('td').length);
+        // 如果subCellLen不是整數，則報錯
+        if (subCellLen % 1 !== 0) {
+          throw new Error('subCellLen is not integer');
+        }
+        const buttonText = [];
+
+        // 複製title
+        mobileBody.append($(tr[0]).clone());
+        padBody.append($(tr[0]).clone());
+        // column長度
+        const columnLen = $(tr[1]).find('td').length;
+        for (let i = 0; i < columnLen; i++) {
+          // 處理pad
+          const padTr = [
+            [
+              $(tr[1]).find('th').eq(0).clone(),
+              $(tr[1]).find('td').eq(i).clone().attr('id', 'pad-table-' + i)
+            ]
+          ];
+          for (let j = i * subCellLen; j < (i + 1) * subCellLen; j++) {
+            // 處理表格裡面的路段
+            const newTr = $("<tr></tr>");
+            const titleTh = $(tr[1]).find('th').eq(0);
+            const titleTd = $(tr[1]).find('td').eq(i);
+            newTr.append(titleTh.clone());
+            newTr.append(titleTd.clone().attr('rowspan', '').attr('id', 'mobile-table-' + i + '-' + j)),
+              mobileBody.append(newTr);
+            // 處理表格裡面的路段的方向
+            const newTr2 = $("<tr></tr>");
+            const titleTd2 = $(tr[2]).find('td').eq(j);
+            newTr2.append(titleTd2.clone());
+            mobileBody.append(newTr2);
+
+            padTr[2] = padTr[2] || [];
+            padTr[2].push(titleTd2.clone());
+            buttonText.push({
+              text: titleTd.text() + '' + titleTd2.text(),
+              mobile: 'mobile-table-' + i + '-' + j,
+              pad: 'pad-table-' + i,
+            });
+            for (let row = 3; row < trLen; row++) {
+              const newTr = $("<tr></tr>");
+              const td = $(tr[row]).find('td').eq(j);
+              const th = $(tr[row]).find('th').eq(0);
+
+              newTr.append(th.clone());
+              newTr.append(td.clone());
+              mobileBody.append(newTr);
+
+              padTr[row] = padTr[row] || [th.clone()];
+              padTr[row].push(td.clone());
+            }
+
+          }
+          padTr.forEach((tr) => {
+            const newTr = $("<tr></tr>");
+            tr.forEach((td) => {
+              newTr.append(td);
+            });
+            padBody.append(newTr);
+          });
+        }
+        mobileTable.empty();
+        mobileTable.append(mobileBody);
+        padTable.append(padBody);
+        buttonText.forEach(({ text, mobile, pad }, index) => {
+          const button = buttonTemplate.clone().removeAttr('id')
+          button.find('.group-button-text').text(text).attr('data-mobile', mobile).attr('data-pad', pad);
+          groupButton.append(button);
+        });
+        bindGroupButtonClickEvent()
+      }
+    });
+  </script>
+</body>
+
+</html>
